@@ -2,20 +2,20 @@
   "name": "UltraStream",
   "short_name": "UltraStream",
   "description": "Watch videos without ads",
-  "start_url": "/",
+  "start_url": ".",
   "display": "standalone",
   "background_color": "#0a0a14",
   "theme_color": "#8B5CF6",
   "icons": [
     {
-      "src": "https://fonts.gstatic.com/s/i/shortterm/release/googlesymbols/play_arrow/default/192px.svg",
+      "src": "https://api.iconify.design/solar:play-bold-duotone.png?color=%238b5cf6&width=192&height=192",
       "sizes": "192x192",
-      "type": "image/svg+xml"
+      "type": "image/png"
     },
     {
-      "src": "https://fonts.gstatic.com/s/i/shortterm/release/googlesymbols/play_arrow/default/512px.svg",
+      "src": "https://api.iconify.design/solar:play-bold-duotone.png?color=%238b5cf6&width=512&height=512",
       "sizes": "512x512",
-      "type": "image/svg+xml"
+      "type": "image/png"
     }
   ]
 }
