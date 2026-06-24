@@ -173,7 +173,10 @@ class YouTubePlayerManager {
         const iframe = document.createElement('iframe');
         iframe.id = 'youtube-player';
         iframe.src = `https://www.youtube.com/embed/${videoId}?autoplay=1&rel=0&modestbranding=1&iv_load_policy=3&fs=1&hd=1&vq=hd1080`;
-        iframe.setAttribute('allow', 'accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture');
+        iframe.setAttribute('allow', 'accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; fullscreen');
+iframe.setAttribute('allowfullscreen', 'true');
+iframe.setAttribute('webkitallowfullscreen', 'true');
+iframe.setAttribute('mozallowfullscreen', 'true');
         iframe.setAttribute('allowfullscreen', '');
         iframe.style.cssText = `
             width: 100%;
