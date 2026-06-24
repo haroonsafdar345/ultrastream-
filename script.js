@@ -63,7 +63,6 @@ class ParticleSystem {
     }
 }
 
-// Add floating particle animation keyframes
 const particleStyle = document.createElement('style');
 particleStyle.textContent = `
     @keyframes floatParticle {
@@ -92,7 +91,6 @@ class YouTubeValidator {
         for (const pattern of patterns) {
             const match = url.match(pattern);
             if (match) {
-                // Check if it's a Shorts URL
                 if (url.includes('/shorts/')) {
                     throw new Error('Sorry, only long videos are supported. Shorts are not supported.');
                 }
@@ -104,8 +102,6 @@ class YouTubeValidator {
     }
 
     static async checkIfShort(videoId) {
-        // This is a basic check. In production, you'd use YouTube API
-        // For now, we'll assume it's a regular video if not from /shorts/
         return false;
     }
 }
@@ -140,10 +136,9 @@ class NotificationManager {
 
         this.text.textContent = message;
         
-        // Reset animation
         const progress = this.notification.querySelector('.notification-progress');
         progress.style.animation = 'none';
-        progress.offsetHeight; // Force reflow
+        progress.offsetHeight;
         progress.style.animation = 'progress 3s linear forwards';
 
         this.timeout = setTimeout(() => {
@@ -165,24 +160,18 @@ class YouTubePlayerManager {
     }
 
     async loadVideo(videoId) {
-        // Clear previous player
         this.playerContainer.innerHTML = '';
         this.currentVideoId = videoId;
 
-        // Create iframe element
         const iframe = document.createElement('iframe');
         iframe.id = 'youtube-player';
-        iframe.src = `https://www.youtube.com/embed/${videoId}?autoplay=1&rel=0&modestbranding=1&iv_load_policy=3&fs=1&hd=1&vq=hd1080`;
-        iframe.setAttribute('allow', 'accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; fullscreen');
-iframe.setAttribute('allowfullscreen', 'true');
-iframe.setAttribute('webkitallowfullscreen', 'true');
-iframe.setAttribute('mozallowfullscreen', 'true');
+        iframe.src = `https://www.youtube.com/embed/${videoId}?autoplay=1&rel=0&modestbranding=1&iv_load_policy=3&fs=1`;
         iframe.setAttribute('allowfullscreen', '');
+        iframe.setAttribute('allow', 'fullscreen; autoplay; encrypted-media; picture-in-picture');
         iframe.style.cssText = `
             width: 100%;
             height: 100%;
             border: none;
-            border-radius: inherit;
         `;
 
         this.playerContainer.appendChild(iframe);
@@ -216,55 +205,32 @@ class UltraStreamApp {
     }
 
     init() {
-        // Initialize particles
         new ParticleSystem();
         
-        // Event listeners
         this.playBtn.addEventListener('click', () => this.handlePlay());
         this.urlInput.addEventListener('keypress', (e) => {
             if (e.key === 'Enter') this.handlePlay();
         });
         this.closePlayer.addEventListener('click', () => this.closeVideo());
         
-        // Focus input on load
         setTimeout(() => this.urlInput.focus(), 500);
-
-        // Add button hover effect
-        this.playBtn.addEventListener('mousemove', (e) => {
-            const rect = this.playBtn.getBoundingClientRect();
-            const x = e.clientX - rect.left;
-            const y = e.clientY - rect.top;
-            this.playBtn.style.setProperty('--mouse-x', `${x}px`);
-            this.playBtn.style.setProperty('--mouse-y', `${y}px`);
-        });
     }
 
     async handlePlay() {
         const url = this.urlInput.value;
-        
-        // Hide previous errors
         this.hideError();
         
         try {
-            // Validate and extract video ID
             const videoId = YouTubeValidator.validateAndExtract(url);
-            
-            // Show loading state
             this.setLoading(true);
             
-            // Check if it's a Shorts video
             const isShort = await YouTubeValidator.checkIfShort(videoId);
             if (isShort) {
                 throw new Error('Sorry, only long videos are supported. Shorts are not supported.');
             }
             
-            // Load video
             await this.player.loadVideo(videoId);
-            
-            // Show player
             this.showPlayer();
-            
-            // Show success notification
             this.notification.show('Video loaded successfully!', 'success');
             
         } catch (error) {
@@ -290,8 +256,6 @@ class UltraStreamApp {
     showError(message) {
         this.errorText.textContent = message;
         this.errorMessage.classList.remove('hidden');
-        
-        // Shake animation
         this.errorMessage.style.animation = 'none';
         this.errorMessage.offsetHeight;
         this.errorMessage.style.animation = 'shake 0.5s ease-in-out';
@@ -315,7 +279,6 @@ class UltraStreamApp {
     }
 }
 
-// Add shake animation
 const shakeStyle = document.createElement('style');
 shakeStyle.textContent = `
     @keyframes shake {
@@ -326,25 +289,16 @@ shakeStyle.textContent = `
 `;
 document.head.appendChild(shakeStyle);
 
-// ===== Initialize App =====
 document.addEventListener('DOMContentLoaded', () => {
     new UltraStreamApp();
 });
 
-// ===== Service Worker Registration (for PWA) =====
-if ('serviceWorker' in navigator) {
-    window.addEventListener('load', () => {
-        // Uncomment in production
-        // navigator.serviceWorker.register('/sw.js').catch(() => {});
-    });
-      }
 // PWA Install
 let deferredPrompt;
 
 window.addEventListener('beforeinstallprompt', (e) => {
     deferredPrompt = e;
     
-    // Show install button after 10 seconds
     setTimeout(() => {
         if (confirm('Install UltraStream as an app?')) {
             deferredPrompt.prompt();
