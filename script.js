@@ -293,26 +293,21 @@ document.addEventListener('DOMContentLoaded', () => {
     new UltraStreamApp();
 });
 
-// PWA Install
+// ===== PWA Install =====
 let deferredPrompt;
 
 window.addEventListener('beforeinstallprompt', (e) => {
+    e.preventDefault();
     deferredPrompt = e;
-    
-    setTimeout(() => {
-        if (confirm('Install UltraStream as an app?')) {
-            deferredPrompt.prompt();
-            deferredPrompt.userChoice.then((choiceResult) => {
-                if (choiceResult.outcome === 'accepted') {
-                    console.log('User installed the app');
-                }
-                deferredPrompt = null;
-            });
-        }
-    }, 10000);
+    console.log('PWA is ready to be installed');
 });
 
-// Register Service Worker
+window.addEventListener('appinstalled', (evt) => {
+    console.log('UltraStream App was installed successfully!');
+    deferredPrompt = null;
+});
+
+// ===== Register Service Worker =====
 if ('serviceWorker' in navigator) {
   window.addEventListener('load', () => {
     navigator.serviceWorker.register('/sw.js')
