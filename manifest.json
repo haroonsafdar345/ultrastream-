@@ -8,12 +8,12 @@
   "theme_color": "#8B5CF6",
   "icons": [
     {
-      "src": "https://i.ibb.co/MkPqRqT/icon-192.png",
+      "src": "https://upload.wikimedia.org/wikipedia/commons/thumb/7/74/Play_icon_%28Cropped%29.svg/512px-Play_icon_%28Cropped%29.svg.png",
       "sizes": "192x192",
       "type": "image/png"
     },
     {
-      "src": "https://i.ibb.co/MkPqRqT/icon-192.png",
+      "src": "https://upload.wikimedia.org/wikipedia/commons/thumb/7/74/Play_icon_%28Cropped%29.svg/512px-Play_icon_%28Cropped%29.svg.png",
       "sizes": "512x512",
       "type": "image/png"
     }
