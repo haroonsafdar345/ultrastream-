@@ -335,3 +335,22 @@ if ('serviceWorker' in navigator) {
         // navigator.serviceWorker.register('/sw.js').catch(() => {});
     });
       }
+// PWA Install
+let deferredPrompt;
+
+window.addEventListener('beforeinstallprompt', (e) => {
+    deferredPrompt = e;
+    
+    // Show install button after 10 seconds
+    setTimeout(() => {
+        if (confirm('Install UltraStream as an app?')) {
+            deferredPrompt.prompt();
+            deferredPrompt.userChoice.then((choiceResult) => {
+                if (choiceResult.outcome === 'accepted') {
+                    console.log('User installed the app');
+                }
+                deferredPrompt = null;
+            });
+        }
+    }, 10000);
+});
